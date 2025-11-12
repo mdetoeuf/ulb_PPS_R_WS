@@ -1,4 +1,4 @@
-- After each workshop day, a script will be uploaded with all code that has been ran during the workshop. This script will have a file name like "Script_WS1.r".
+- After each workshop day, a script will be uploaded with all code that has been ran during the workshop. This script will have a file name like "script_ws1.r".
 - The file called "Useful_functions.r" will be replaced with new versions after each workshop day.
 - The Powerpoint presentations will be added as PDF after the workshops as well, with a file format numbered with WS1, WS2, WS3, WS4
 
