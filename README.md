@@ -3,3 +3,7 @@
 - The Powerpoint presentations will be added as PDF after the workshops as well, with a file format numbered with WS1, WS2, WS3, WS4
 
 - Additional files may be uploaded as well, to be defined
+
+**script_ws1.r**
+- Chapter 1 - Data Visualization
+- Chapter 2 - Workflow basics
