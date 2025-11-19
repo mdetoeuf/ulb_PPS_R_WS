@@ -40,4 +40,40 @@ sample(1:100, 5) # random sampling of 5 elements between 1 and 100
 
 # visualization -----------------------------------------------------------
 
-ggplot(data, mapping = aes()) + geom_... # ex: geom_boxplot, geom_point, etc.
+ggplot(
+  data, 
+  mapping = aes()
+  ) + 
+  geom_... # ex: geom_boxplot, geom_point, etc.
+
+# transformation with dplyr -----------------------------------------------
+
+## on rows
+filter()
+arrange()
+distinct()
+
+## on columns
+mutate() # compute new variables
+select() 
+rename()
+relocate()
+# for select() --> think about helper functions such as
+ends_with()
+starts_with()
+contains()
+any_of() # etc. see help of select()
+
+## on groups
+group_by() # by one or more variables
+summarise() # use .by for per-operation grouping
+# incl slice_ family
+slice_head()
+slice_tail()
+slice_max()
+slice_min()
+slice_sample()
+ungroup()
+
+
+
