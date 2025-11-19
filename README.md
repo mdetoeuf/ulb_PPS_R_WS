@@ -7,3 +7,7 @@
 **script_ws1.r**
 - Chapter 1 - Data Visualization
 - Chapter 2 - Workflow basics
+
+**script_ws2.r**
+- Chapter 3 - Data Transformation
+- Chapter 4 - Workflow - code style
