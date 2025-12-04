@@ -7,6 +7,13 @@ library() # without ""
 ?str() # getting help about the function "str" --> looks in loaded packages
 ??str() # idem, looks also outside of loaded packages
 
+sessionInfo() # gives version info on all packages currently loaded in the session
+tidyverse_update() # checks if packages are up to date (tidyverse only)
+
+# To access the vignette, if you need more input
+vignette("pivot", package = "tidyr")
+# if don't know names of topics, have a look here first --> then rerun with topic
+vignette(package = "tidyr")
 
 # File system & directory -------------------------------------------------
 
@@ -44,7 +51,9 @@ ggplot(
   data, 
   mapping = aes()
   ) + 
-  geom_... # ex: geom_boxplot, geom_point, etc.
+  geom_... + # ex: geom_boxplot, geom_point, etc.
+  scale_y_reverse() # reverse scale. Works also for x
+
 
 # transformation with dplyr -----------------------------------------------
 
@@ -75,5 +84,48 @@ slice_min()
 slice_sample()
 ungroup()
 
+# if else, vectorized
+if_else() # 3 arguments: boolean (TRUE/FALSE), what to do if TRUE, what to do if FALSE
 
+
+# tidying with tidyr ------------------------------------------------------
+
+pivot_longer()
+pivot_wider()
+
+parse_number() # extracts first number 
+pull() # extract single column as vector (similar to $)
+
+problems() # helps identify rows and columns that have unexpected vallues (see ws on pivot)
+
+
+# importing with readr ----------------------------------------------------
+
+read_csv() # for comma-separated-values
+read_csv2() # for semi-colon separated values
+write_csv() # will lose any column type (class, especially factor)
+
+list.files() # needs a pattern, creates a vector of filenames corresponding to pattern
+
+# R-specific file type
+read_rds() 
+write_rds() # keeps objects with all info --> better for interim storing
+
+# same as rds, but can be used between programming languages
+arrow::read_parquet()
+arrow::write_parquet()
+
+tibble() # column-wise tibble entry
+tribble() # row-wise column entry
+
+# getting help ------------------------------------------------------------
+
+?str() # getting help about the function "str" --> looks in loaded packages
+??str() # idem, looks also outside of loaded packages
+
+# copy in clipboard code to reprex, then run
+reprex::reprex()
+
+# recreating an object for reprex --> code is ugly, think to use styler package
+dput() # then copy-paste input into an object to share
 
