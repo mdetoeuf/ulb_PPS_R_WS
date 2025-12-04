@@ -11,3 +11,9 @@
 **script_ws2.r**
 - Chapter 3 - Data Transformation
 - Chapter 4 - Workflow - code style
+
+**script_ws3.r**
+- Chapter 5 - Data Tidying
+- Chapter 6 - Workflow - Scripts and Projects
+- Chapter 7 - Data Import
+- Chapter 8 - Workflow - getting help
