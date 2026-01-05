@@ -1,0 +1,29 @@
+---
+format: html
+params:
+  my_class: "suv"
+---
+
+the `params` option creates a read-only list named "params".
+
+```{r}
+#| label: setup
+#| include: false
+
+library(tidyverse)
+params
+
+mpg
+
+class <- mpg |> filter(class == params$my_class)
+```
+
+# Fuel economy for `r params$my_class`s
+
+```{r}
+#| message: false
+
+ggplot(class, aes(x = displ, y = hwy)) + 
+  geom_point() + 
+  geom_smooth(se = FALSE)
+```

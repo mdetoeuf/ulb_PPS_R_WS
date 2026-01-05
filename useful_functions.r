@@ -20,6 +20,9 @@ vignette(package = "tidyr")
 getwd()
 setwd()
 
+file.mtime("file_path") # gives time of last modification to the file
+
+lubridate::now() # gives the time right now (from the system = in the computer)
 
 # Understanding objects ---------------------------------------------------
 
@@ -129,3 +132,8 @@ reprex::reprex()
 # recreating an object for reprex --> code is ugly, think to use styler package
 dput() # then copy-paste input into an object to share
 
+
+# Quarto - related --------------------------------------------------------
+
+# will render data frame as a table instead of the usual console-like output
+knitr::kable(dataframe[range],) 
