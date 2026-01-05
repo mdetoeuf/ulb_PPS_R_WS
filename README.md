@@ -19,5 +19,8 @@
 - Chapter 8 - Workflow - getting help
 
 ##ws4.qmd**
+This is a quarto file format (see explanations in course documents), different from scripts above.
 - Chapter 28 - Quarto
-- Chapter 29 - Quarto format (most in written document: pdf of the presentation or original document: https://r4ds.hadley.nz/quarto-formats.html) 
+- Chapter 29 - Quarto format (most in written document: pdf of the presentation or original document: https://r4ds.hadley.nz/quarto-formats.html)
+
+
