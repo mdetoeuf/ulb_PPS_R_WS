@@ -17,3 +17,7 @@
 - Chapter 6 - Workflow - Scripts and Projects
 - Chapter 7 - Data Import
 - Chapter 8 - Workflow - getting help
+
+##ws4.qmd**
+- Chapter 28 - Quarto
+- Chapter 29 - Quarto format (most in written document: pdf of the presentation or original document: https://r4ds.hadley.nz/quarto-formats.html) 
