@@ -1,0 +1,675 @@
+---
+title: "R Workshop #4"
+format: 
+  html: 
+    embed-resources: true
+#code-fold: true
+toc: true
+editor: visual
+editor_options: 
+  chunk_output_type: console
+bibliography: references.bib
+execute: 
+  echo: true
+  
+fig-width: 4.3
+fig-asp: 0.618
+out-width: 50%
+---
+
+# Warning: this is not a linear script
+
+Warning, the creation of this script was quite interactive. It is interesting to go through features bit by bit and look at the rendered document. For this reason, this document may be harder to read than the scripts of WS1 to WS3, that were quite linear. In particular, options in the YAML header are of interest. I refer the reader to the recording or the powerpoint presentation. For a full, written description, please refer to the original resource that was at the origin of this series of workshops: <https://r4ds.hadley.nz/communicate.html>
+
+------------------------------------------------------------------------
+
+# 0 - Getting started from Quarto template
+
+When you create a new quarto document, the next 2 paragraphs are displayed by default.
+
+## Quarto
+
+Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
+
+## Running Code
+
+When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
+
+```{r}
+#| label: first-chunk
+#| include: false
+#| 
+1 + 1
+10*2
+
+library(tidyverse)
+
+```
+
+The chunk above and the chunk below are there to demonstrate how chunks work, and how the rendering process works. Observe buttons at the top right corner of the chunk. Play around with rendering options ("Render" button in the menu bar above). Use these first chunks to
+
+-   check the impact of settings (output inline or in console, preview in window or in viewer pane)
+
+-   get used to buttons, including expand output, reduce chunk, navigation, running code, etc.
+
+```{r}
+#| include: true
+#| message: false
+
+diamonds |> 
+  ggplot(aes(x = carat)) +
+  geom_histogram()
+```
+
+You can add options to executable code like this
+
+```{r}
+#| echo: true
+2 * 2
+```
+
+The `echo: false` option disables the printing of code (only output is displayed).
+
+# 1 - Visual editor
+
+Displayed as visual editor, but saved as plain Markdown format –\> switching back and forth from visual editor to source code visualization is possible.
+
+## 1.1 - Add image
+
+Drag and drop anything from your computer in here. You will see a new folder appear in your directory, called "images". RStudio automatically saves a copy of that image in this folder. This works also from an image copied to clipboard.
+
+-   Notice 3 dots on top-right corner of the image: you can edit display properties there, or by double-clicking the image
+
+![](Shared_stuff/images/clipboard-409387132.png){width="279"}
+
+### Exercises
+
+***Footnote***[^1]
+
+[^1]: blablablba
+
+***Block quote & citation***
+
+> someone said somtething cool [@wilkinson2016]
+
+-   Now that we added a quote, notice changes to YAML header !
+
+-   Render document, notice automatic adding of bibliogaphy and footnote section at the end + linked text within the document: you can hover over it and click it
+
+***Horizontal rule:***
+
+------------------------------------------------------------------------
+
+#\| comment: "#\>"
+
+```{r}
+#| comment: "#°°°°°>"
+
+10*3
+nrow(diamonds)
+```
+
+# 2 - Code chunks
+
+-   1 chunk = 1 task
+
+-   header = \`\`\`{r}
+
+-   followed by options marked by #\|
+
+    -   One of them = chunk label, can also be in the {r} like this: {r label}
+
+```{r test-label}
+?tidyverse
+```
+
+```{r}
+#| label: label-test
+```
+
+See the labels for chunk 6 and 7 in the navigation button below
+
+```{r}
+#| label: bla
+#| comment: "#>"
+library(tidyverse)
+1+1
+```
+
+## 2.1 - Inline code
+
+For example, I can mention a `function()` of interest or a data set like `penguins` .
+
+Or I can compute something inline, like this.
+
+-   surround text by "\`r" (without the quotes) at beginning and "\`" after
+
+-   ex: the data set `penguins` has `r nrow(penguins)` rows
+
+The visual editor takes the info but automatically hides the "\`r" and "\`" (unless i put it in quotes like here...). But if you check the source editor, you will see that it is indeed there.
+
+If you need to use inline code to access complicated numbers (many digits, etc.), then you can take advantage of the function `format()` and its argument `big.mark`. If you need to use it several times, you can prepare a little function (see chunk hereunder).
+
+Here we define a little function to make numbers prettier (rounding etc.). We then call it in the "inline code" that is below that chunk.
+
+```{r}
+#| include: false
+x <-  8567.1178764876
+format(x, digits = 2, big.mark = ",")
+
+comma <- function(x) format(x, digits = 2, big.mark = ",")
+
+
+```
+
+Now that the function exists, we can use it to talk about big numbers like `r comma(1898765.938)`... And because this chunk was important for coding the function but actually does not contribute to the analysis itself, it could be relevant to cache this chunk with the option `include: false`.
+
+Of course, instead of a hand-typed number, it could be the result of a computation or a value from a data frame.
+
+### Exercises
+
+[**Exo 1**]{.underline}
+
+```{r}
+#| label: exercise-1
+#| warning: false
+#| message: false
+
+diamonds |> 
+  ggplot(aes(y = y, x = cut)) +
+  ylim(0,15) +
+  geom_boxplot() +
+  ylab("width")
+
+diamonds |> 
+  ggplot(aes(y = y, x = color)) +
+  ylim(0,15) +
+  geom_boxplot() +
+  ylab("width")
+
+
+diamonds |> 
+  ggplot(aes(y = y, x = clarity)) +
+  ylim(0,15) +
+  geom_boxplot()
+  ylab("width")
+
+```
+
+# 3 - Figures
+
+Illustration of figure sizing
+
+we copy one of the plots above, but change chunk features
+
+-   recommended settings : fig-width = 6, out-width = 70%, fig-asp = 0.618
+
+```{r}
+#| fig-width: 6
+#| out-width: 70%
+#| fig-asp: 0.618
+#| warning: false
+#| message: false
+
+diamonds |> 
+  ggplot(aes(y = y, x = clarity)) +
+  ylim(0,15) +
+  geom_boxplot()
+  ylab("width")
+
+```
+
+-   same except bigger source pic: fig-width = 10
+
+```{r}
+#| warning: false
+#| message: false
+#| fig-width: 10
+#| out-width: 70%
+#| fig-asp: 0.618
+
+diamonds |> 
+  ggplot(aes(y = y, x = clarity)) +
+  ylim(0,15) +
+  geom_boxplot()
+  ylab("width")
+```
+
+-   recommended but aspect ratio = 1
+
+```{r}
+#| fig-width: 6
+#| out-width: 70%
+#| fig-asp: 1
+#| warning: false
+#| message: false
+#| 
+diamonds |> 
+  ggplot(aes(y = y, x = clarity)) +
+  ylim(0,15) +
+  geom_boxplot()
+  ylab("width")
+```
+
+-   recommended but out-width = 100%
+
+```{r}
+#| fig-width: 6
+#| out-width: 100%
+#| fig-asp: 0.618
+#| warning: false
+#| message: false
+#| 
+diamonds |> 
+  ggplot(aes(y = y, x = clarity)) +
+  ylim(0,15) +
+  geom_boxplot()
+  ylab("width")
+```
+
+### Exercises
+
+[**Exo1**]{.underline}
+
+Find a random image (can be a screenshot), copy it (screenshot could simply be in clipboard), and paste it into the document. Double click on the image and add a caption. Resize the image and render your document. Observe how the image is saved in your current working directory.
+
+-   random screenshot
+
+![this is a caption](images/clipboard-3282945236.png)
+
+[**Exo2**]{.underline}
+
+Insert a new chunk with a plot (you can copy a ggplot from above). Label the chunk with a label starting with the prefix `fig-`. Add a caption with the chunk option `fig-cap`. Then, edit the text above the code chunk to add a cross-reference to the figure with Insert \> Cross Reference.
+
+-   notice that figure is numbered automatically with this way of adding a caption!
+
+This is a CrossRef to @fig-diamonds-cut
+
+```{r}
+#| label: fig-diamonds-cut
+#| fig-cap: "Diamonds plot"
+
+
+diamonds |> 
+  ggplot(aes(y = y, x = cut)) +
+  geom_boxplot() +
+  ylim(0, 20)
+```
+
+[**Exo3**]{.underline}
+
+Change the size of the figure with the following chunk options, one at a time, render your document, and describe how the figure changes. `fig-width: 10`
+
+```{r}
+#| warning: false
+#| message: false
+#| fig-width: 10
+penguins |> 
+  ggplot(aes(x = species, y = body_mass)) +
+  geom_boxplot()
+```
+
+`fig-height: 3`
+
+```{r}
+#| warning: false
+#| message: false
+#| fig-width: 3
+penguins |> 
+  ggplot(aes(x = species, y = body_mass)) +
+  geom_boxplot()
+```
+
+`out-width: "100%"`
+
+```{r}
+#| warning: false
+#| message: false
+#| out-width: 100%
+penguins |> 
+  ggplot(aes(x = species, y = body_mass)) +
+  geom_boxplot()
+```
+
+`out-width: "20%"`
+
+```{r}
+#| warning: false
+#| message: false
+#| out-width: 20%
+penguins |> 
+  ggplot(aes(x = species, y = body_mass)) +
+  geom_boxplot()
+```
+
+# 4 - Tables
+
+Insert a table manually
+
+| header1 | Col2 | Col3 |
+|---------|------|------|
+| bljkb   |      |      |
+|         | 79   |      |
+|         |      |      |
+
+: this is a manually inserted table
+
+In Quarto rendered documents, data frames are printed as output, in a visual way that we are used to
+
+```{r}
+diamonds 
+```
+
+But we can also ask `knitr` to display them in a table format (don't know why there is space behind comma, it also works without it, but I kept it here just in case)
+
+```{r}
+#| echo: true
+#| 
+knitr::kable(diamonds[1:5, ], )
+
+```
+
+-   notice the automatic numbering of the table if we have a label with the prefix tbl- and a caption added (// figures)
+-   So you can also refer to it with crossref @tbl-diamonds
+
+```{r}
+#| label: tbl-diamonds
+#| tbl-cap: "this is a table rendered with knitr::kable()"
+#| echo: true
+#| 
+knitr::kable(diamonds[1:5, ], )
+
+```
+
+# 5 - Caching
+
+First, we establish 2 chunks with dependency
+
+--\> look at it with and without the caching options. First without!
+
+```{r}
+#| label: raw-data
+raw_data <- billboard
+raw_data
+```
+
+2nd chunk depending on previous one
+
+```{r}
+#| label: pivoted-data
+
+pivoted_data <-  raw_data |> 
+  pivot_longer(
+    cols = starts_with("wk"),
+    values_to = "rank",
+    names_to = "week",
+    #values_drop_na = TRUE
+  )
+pivoted_data
+```
+
+3rd chunk depending on previous one: compute number of rows of pivoted_data
+
+```{r}
+#| label: nrow
+#| #cache: true
+#| #dependson: "pivoted-data"
+nrow(pivoted_data)
+```
+
+## 5.1 - cache options & dependencies
+
+-   look at output of previous chunk first without caching options and without values_drop_na (in previous chunk) –\> nrows = 24,092
+
+-   then compute again with values_drop_na to see nrow
+
+-   then compute 1st version again
+
+-   then add `cache: true` to chunk called nrow and add `values_drop_na` , and render
+
+    -   see that wrong nrows is still there (24092)
+
+    -   now add `dependson: "pivoted-data"`, and see that it solves the problem
+
+-   nrow with the values_drop_na argument to pivot table should be 5307 rows.
+
+## 5.2 - Tracking changes to imported data
+
+Cache will only detect changes in code, i.e., in the .qmd file. It will not notice that there has been an update to the raw CSV file that is imported.
+
+There is a way to solve that problem, by making the code change with any modification to the raw data
+
+[**First, introduction to the function `file.mtime()`.**]{.underline}
+
+Let's import the raw csv created last week that we called students.csv. Find where you put it. I put it in a folder called data in the folder Shared_stuff.
+
+```{r}
+#| label: last-modif
+#| warning: false
+#| message: false
+
+
+file.mtime("Shared_stuff/data/students.csv")
+
+```
+
+Let's look at the file, and create an alternate file called students_2 (to not loose original file)
+
+```{r}
+#| label: students-2
+students <-  read_csv("Shared_stuff/data/students.csv")
+students
+
+# we save it as an alternate file, so we can easily access the original file
+students |> write_csv("Shared_stuff/data/students_2.csv")
+
+file.mtime("Shared_stuff/data/students.csv")
+file.mtime("Shared_stuff/data/students_2.csv")
+```
+
+In the following chunk, we modify that file slightly to see that the modification time changes (students_2).
+
+But first, render the document with the option on `eval:false` for the following chunk (no modification will be done to student 2), see bullet points hereunder.
+
+```{r}
+#| label: modif-students-2
+#| eval: false
+#| include: false
+file.mtime("Shared_stuff/data/students_2.csv")
+
+students <-  read_csv("Shared_stuff/data/students_2.csv")
+students_2 <- students |> 
+  # add a column with eye color
+  mutate(eye_color = rep(c("blue", "brown"), 3)
+  ) |> write_csv("Shared_stuff/data/students_2.csv")
+students_2
+
+file.mtime("Shared_stuff/data/students_2.csv")
+
+
+```
+
+With the option cache.extra (hereunder), the code will be executed if one of the 2 conditions is fulfilled:
+
+-   the code of the chunk has changed
+
+-   or the "last modification time" has changed (that is the output of the code following `!expr`)
+
+How to test this:
+
+-   first, render the document as is:
+
+    -   chunk called "modif-students-2" is on `eval: false` and `include: false`, and
+
+    -   chunk called "students" has the option cache.extra that is inactive
+
+    -   All active chunks will be ran a first time (cache is only active with next rendering). the files students_2 will be created (chunk "students-2"), but not modified (new column, chunk "modif-students-2")
+
+-   Then render document again
+
+    -   but with the chunk called "modif-students-2" with the option `eval: true`and `include: true`.
+
+    -   The file students_2 will be modified, but the chunk called "students" will not notice any change to its code, so it will stay cached (it will not be ran again)
+
+    -   As a result, although the students-2 has been modified, the output given from cached chunk "students" is still the old one (ole modif time, old version of student file without extra column)
+
+-   Then render document again, but this time, un-comment the option cache.extra in chunk called "students". Notice that the problem is solved
+
+```{r}
+#| label: students
+#| cache: true
+#| cache.extra: !expr file.mtime("Shared_stuff/data/students_2.csv")
+
+students <-  read_csv("Shared_stuff/data/students_2.csv")
+students
+
+lubridate::now()
+```
+
+## 5.3 - render cache-free
+
+First, have a look at folder that contains "cache" –\> html. See that all files there start with the names of the cached chunks.
+
+When we work on documents, it can be that chunk names change. When that happens with a cached chunk, the name with the old chunk name will not be removed.
+
+So, when you have complex caching strategies, it is a good idea to check for obsolete cache documents and remove them, using the `knitr::clean_cache()` command. The default option is `clean = FALSE`, so the rendered document will just provide a list of documents identified as obsolete.
+
+-   first check that list.
+
+-   When you are sure that indeed those files can be removed, then, render once more, with option `clean = TRUE`.
+
+Tip: the call to `knitr::clean_cache()` will only work during rendering, bc the function needs access to all other chunks of the document (not the case when we just run that one command).
+
+```{r}
+knitr::clean_cache()
+#knitr::clean_cache(clean = TRUE)
+
+```
+
+### Exercises
+
+[**Exo1**]{.underline}
+
+Set up a network of chunks where `d` depends on `c` and `b`, and both `b` and `c` depend on `a`. Have each chunk print [`lubridate::now()`](https://lubridate.tidyverse.org/reference/now.html), set `cache: true`, then verify your understanding of caching
+
+Many possible answers. Here is one
+
+-   chunk a
+
+```{r}
+#| label: a-raw-slakes
+#| eval: false
+#| message: false
+#| cache: true
+#| include: false
+
+raw_slakes <- read_csv2(
+  list.files(
+    "data", 
+    pattern = "slake", 
+    full.names = TRUE), 
+  id = "file") |> 
+  mutate(mass = as.double(mass))
+knitr::kable(raw_slakes[1:11,],)
+
+lubridate::now()
+```
+
+-   chunk b, depends on a
+
+```{r}
+#| label: max-slakes
+#| eval: false
+#| cache: true
+#| include: false
+
+
+max_slakes <- raw_slakes |> 
+  #group_by(file) |> 
+  slice_max(mass, by = file) |> 
+  select(file,sample, mass)
+knitr::kable(max_slakes,)
+
+lubridate::now()
+```
+
+-   chunk c, depends on a
+
+```{r}
+#| label: first-slakes
+#| eval: false
+#| cache: true
+#| include: false
+
+
+first_slakes <- raw_slakes |> 
+  #group_by(file) |> 
+  slice_head(by = file) |> 
+  select(file, sample, mass)
+knitr::kable(first_slakes,)
+
+
+lubridate::now()
+```
+
+-   chunk d,
+
+```{r}
+#| label: mass-ratio
+#| eval: false
+#| cache: true
+#| include: false
+
+
+first_slakes$mass
+mass_ratio <- 
+  max_slakes |> 
+  rename(max_mass = mass) |> 
+  mutate(
+    first_mass = first_slakes$mass,
+    mass_ratio = max_mass/first_mass
+    )
+#mass_ratio
+knitr::kable(mass_ratio,)
+
+lubridate::now()
+
+```
+
+# 6 - Troubleshooting
+
+This is a chunk that will pose problem: undefined object
+
+```{r}
+#| label: troubleshooting
+#| error: true
+
+test 
+
+```
+
+# 7 - YAML Header
+
+## 7.1 - Biblio & citations
+
+Separate multiple citations with a `;`: Blah blah [@bedoussac2022; @puliga2023].
+
+You can add arbitrary comments inside the square brackets: Blah blah [see @puliga2023, pp. 33-35; also @bedoussac2022, ch. 1].
+
+# CHAP 29 - QUARTO FORMATS
+
+# 1 - Interactivity
+
+## 1.1 - htmlwidgets
+
+Here is the code to a zoomable / movable map with the function `leaflet()`.
+
+```{r}
+library(leaflet)
+leaflet() |>
+  setView(174.764, -36.877, zoom = 16) |> 
+  addTiles() |>
+  addMarkers(174.764, -36.877, popup = "Maungawhau") 
+```
+
+## 1.2 - Shiny: see book
