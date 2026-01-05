@@ -19,9 +19,11 @@
 - Chapter 8 - Workflow - getting help
 
 **ws4.qmd and its rendered html version, ws4.html** 
+
 This is a quarto file format (see explanations in course documents), different from scripts above.
 - Chapter 28 - Quarto
 - Chapter 29 - Quarto format (most in written document: pdf of the presentation or original document: https://r4ds.hadley.nz/quarto-formats.html)
 
 **doc_param.qmd**
+
 File to illustrate functioning of option "params" to the YAMl header (see course content)
